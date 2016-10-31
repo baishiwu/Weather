@@ -12,7 +12,18 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        if let url = NSURL(string: "https://api.forecast.io/forecast/d3250bf407f0579c8355cd39cdd4f9e1/40.7138,73.9630") {
+            if let data = NSData(contentsOf: url as URL) {
+                do {
+                    let parsed = try JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions.allowFragments) as! [String:AnyObject]
+                    print(parsed["currently"]!["summary"])
+                }
+                catch let error as NSError {
+                    print("A JSON parsing error occurred, here are the details:\n \(error)")
+                }
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
